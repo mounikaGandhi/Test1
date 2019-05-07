@@ -1,0 +1,80 @@
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+
+@Component({
+  selector: 'app-page-preview',
+  templateUrl: './page-preview.component.html',
+  styleUrls: ['./page-preview.component.css']
+})
+export class PagePreviewComponent implements OnInit {
+previousForm: FormGroup;
+
+  constructor(
+  public dialogRef: MatDialogRef<PagePreviewComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: MatDialog,
+    private formBuilder:FormBuilder){
+      //  console.log('Page Preview dATA',data);
+
+     
+     }
+
+     ngOnInit(){
+      this.previousForm = this.formBuilder.group({
+        FirstName: [this.data['profiledetails_formValues']['FirstName'], 
+          [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern('[a-zA-Z]+')]],
+       
+        LastName: [this.data['profiledetails_formValues']['LastName'], 
+        [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern('[a-zA-Z]+')]],
+        Dateofbirth: [this.data['profiledetails_formValues']['Dateofbirth'],[Validators.required]],
+        phone: [this.data['profiledetails_formValues']['phone'], [Validators.required]],
+        Gender:  [this.data['profiledetails_formValues']['Gender'], [Validators.required]],
+        Address:  [this.data['profiledetails_formValues']['Address'], [Validators.required]],
+        Address2: [this.data['profiledetails_formValues']['Address2'],, [Validators.required]],
+        State:  [this.data['profiledetails_formValues']['State'], [Validators.required]],
+        City:  [this.data['profiledetails_formValues']['City'], [Validators.required]],
+        Country:  [this.data['profiledetails_formValues']['Country'], [Validators.required]],
+        postalcode:  [this.data['profiledetails_formValues']['postalcode'], [Validators.required]],
+        EmployeID: [this.data['employedetail_formValues']['EmployeID'], [Validators.required]],
+        Email: [this.data['employedetail_formValues']['Email'], [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+        password: [this.data['employedetail_formValues']['password'], [Validators.required, Validators.minLength(87),Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
+        role: [this.data['employedetail_formValues']['role'], [Validators.required]],
+        JoiningDate: [this.data['employedetail_formValues']['JoiningDate'], [Validators.required]],
+        ssn: [this.data['employedetail_formValues']['ssn'], [Validators.required]],
+        confirmPassword:  [this.data['employedetail_formValues']['confirmPassword'],[Validators.required]],
+        question: [this.data['securityquestions_formValues']['question'], [Validators.required]],
+        answer: [this.data['securityquestions_formValues']['answer'], [Validators.required]],
+        question1: [this.data['securityquestions_formValues']['question1'], [Validators.required]],
+        answer1: [this.data['securityquestions_formValues']['answer1'], [Validators.required]],
+        question2: [this.data['securityquestions_formValues'] ['question2'], [Validators.required]],
+        answer2: [this.data['securityquestions_formValues']['answer2'], [Validators.required]],
+  });
+
+  this.previousForm.disable();
+     //this.previousForm.controls['FirstName'].setvalue(this.data.profiledetails_formValues.FirstName)    // console.log("My }Data", this.data)
+    }
+    save(row){
+      row.isEditable = false
+    }
+  // enableForm(type) {
+  //   this.previousForm.controls[type].enable();
+  // }
+
+  // enableFullForm() {
+  //   // if (this.previousForm.valid) {
+  //     this.previousForm.enable();
+  //   // }
+  // }
+
+  onSubmit() {
+    // if (this.previousForm.valid) {
+      //this.dialogRef.close()
+      this.dialogRef.close(this.previousForm.value)
+    console.log('Preview Details', this.previousForm.value);
+    // }
+  }
+      
+    
+  
+}
